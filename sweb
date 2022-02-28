@@ -1,0 +1,117 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local anime = Instance.new("Frame")
+local TextButton = Instance.new("TextButton")
+local TextButton_2 = Instance.new("TextButton")
+local anime2 = Instance.new("Frame")
+
+--Properties:
+
+ScreenGui.Parent = game.CoreGui
+
+anime.Name = "anime"
+anime.Parent = ScreenGui
+anime.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+anime.BorderColor3 = Color3.fromRGB(26, 26, 26)
+anime.Position = UDim2.new(0.259656638, 0, 0.256449163, 0)
+anime.Size = UDim2.new(0, 444, 0, 251)
+anime.Active = true
+
+TextButton.Parent = ScreenGui
+TextButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+TextButton.BorderColor3 = Color3.fromRGB(36, 36, 36)
+TextButton.Position = UDim2.new(0.370171666, 0, 0.274658561, 0)
+TextButton.Size = UDim2.new(0, 330, 0, 27)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = "fly"
+TextButton.TextColor3 = Color3.fromRGB(130, 130, 130)
+TextButton.TextScaled = true
+TextButton.TextSize = 14.000
+TextButton.TextWrapped = true
+TextButton_2.MouseButton1Down:Connect(function()
+	loadstring(game:HttpGet('https://raw.githubusercontent.com/22kristina/swag/main/admin_fly'))()
+end)
+
+TextButton_2.Parent = ScreenGui
+TextButton_2.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+TextButton_2.BorderColor3 = Color3.fromRGB(36, 36, 36)
+TextButton_2.Position = UDim2.new(0.370171666, 0, 0.335356593, 0)
+TextButton_2.Size = UDim2.new(0, 330, 0, 27)
+TextButton_2.Font = Enum.Font.SourceSans
+TextButton_2.Text = "remove leg"
+TextButton_2.TextColor3 = Color3.fromRGB(130, 130, 130)
+TextButton_2.TextScaled = true
+TextButton_2.TextSize = 14.000
+TextButton_2.TextWrapped = true
+TextButton.MouseButton1Down:Connect(function()
+	h = script.Parent
+	function L(hit)
+		b = hit.Parent:findFirstChild("Right Leg")
+		b:Remove()
+		h.Reflectance = 1
+		wait (1)
+		h.Reflectance = 0
+	end
+	h.Touched:connect(L)
+end)
+
+anime2.Name = "anime2"
+anime2.Parent = ScreenGui
+anime2.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+anime2.BorderColor3 = Color3.fromRGB(36, 36, 36)
+anime2.Position = UDim2.new(0.259656638, 0, 0.256449163, 0)
+anime2.Size = UDim2.new(0, 97, 0, 251)
+
+-- Scripts:
+
+local function ZWJFGZW_fake_script() -- anime.LocalScript 
+	local script = Instance.new('LocalScript', anime)
+
+	-- Draggble
+	-- Credits: Veky
+	
+	local UserInputService = game:GetService("UserInputService")
+	
+	local gui = script.Parent
+	
+	local dragging
+	local dragInput
+	local dragStart
+	local startPos
+	
+	local function update(input)
+		local delta = input.Position - dragStart
+		gui.Position = gui:TweenPosition(UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y), 'Out', 'Linear', 0, true); -- drag speed
+	end
+	
+	gui.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			dragging = true
+			dragStart = input.Position
+			startPos = gui.Position
+	
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+	
+	gui.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			dragInput = input
+		end
+	end)
+	
+	UserInputService.InputChanged:Connect(function(input)
+		if input == dragInput and dragging then
+			update(input)
+		end
+	end)
+end
+coroutine.wrap(ZWJFGZW_fake_script)()
